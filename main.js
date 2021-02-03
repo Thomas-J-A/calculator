@@ -28,10 +28,31 @@ operators.forEach(op => {
 // handler for equals button
 const equalsBtn = document.getElementById('equals');
 equalsBtn.addEventListener('click', () => {
-    displayValue = operate(operator, operand1, displayValue);
+    if (displayValue === '0' && operator === '/') {
+        displayValue = 'Divison by zero...';
+        updateDisplay();
+    } else {
+        displayValue = operate(operator, operand1, displayValue);
+        operator = '';
+        updateDisplay();
+    }
+});
+
+// handler for all clear button (AC) 
+const acBtn = document.getElementById('ac');
+acBtn.addEventListener('click', () => {
+    displayValue = '';
     operator = '';
+    operand1 = '';
     updateDisplay();
-})
+});
+
+// handler for clear button (C)
+const cBtn = document.getElementById('c');
+cBtn.addEventListener('click', () => {
+    displayValue = '';
+    updateDisplay();
+});
 
 
 // function to update display
