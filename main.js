@@ -15,6 +15,10 @@ numbers.forEach(number => {
 const operators = Array.from(document.getElementsByClassName('operator'));
 operators.forEach(op => {
     op.addEventListener('click', e => {
+        if (operator) {
+            displayValue = operate(operator, operand1, displayValue);
+            updateDisplay();
+        }
         operator = e.target.textContent;
         operand1 = displayValue;
         displayValue = '';
@@ -25,6 +29,7 @@ operators.forEach(op => {
 const equalsBtn = document.getElementById('equals');
 equalsBtn.addEventListener('click', () => {
     displayValue = operate(operator, operand1, displayValue);
+    operator = '';
     updateDisplay();
 })
 
