@@ -28,12 +28,25 @@ operators.forEach(op => {
 // handler for equals button
 const equalsBtn = document.getElementById('equals');
 equalsBtn.addEventListener('click', () => {
-    if (displayValue === '0' && operator === '/') {
+    if (displayValue === '0' && operator === '/') {  // division by 0
         displayValue = 'Divison by zero...';
         updateDisplay();
+    } else if (!operator && !operand1) {  // press equals before operator
+        console.error('pressed equals before operator');
+    } else if (!displayValue) {  // press operator then equals
+        if (operand1 === '0') {
+            displayValue = 'Divison by zero...';
+            updateDisplay();
+        } else {
+            displayValue = operate(operator, operand1, operand1);
+            operator = '';
+            operand1 = '';
+            updateDisplay();
+        }
     } else {
         displayValue = operate(operator, operand1, displayValue);
         operator = '';
+        operand1 = '';
         updateDisplay();
     }
 });
@@ -52,6 +65,17 @@ const cBtn = document.getElementById('c');
 cBtn.addEventListener('click', () => {
     displayValue = '';
     updateDisplay();
+});
+
+// handler for floating point button (.) 
+const floatBtn = document.getElementById('decimal');
+floatBtn.addEventListener('click', () => {
+    if (/\./.test(displayValue) == true) {
+        console.error('more than one decimal point');
+    } else {
+        displayValue += '.';
+        updateDisplay();
+    }
 });
 
 
@@ -76,7 +100,7 @@ function updateDisplay() {
 
 
 function add(x, y) {
-    return Number(x) + Number(y);
+    return +x + +y;
 }
 
 function subtract(x, y) {
