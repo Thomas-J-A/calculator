@@ -7,11 +7,15 @@ const numbers = Array.from(document.getElementsByClassName('number'));
 numbers.forEach(number => {
     number.onclick = function(e, x) { // x used when no access to event object
         if (x) {  
-            displayValue += x;
-            updateDisplay();
+            if (displayValue.length < 9){
+                displayValue += x;
+                updateDisplay();
+            }
         } else {
-            displayValue += e.target.textContent;
-            updateDisplay();
+            if (displayValue.length < 9){
+                displayValue += e.target.textContent;
+                updateDisplay();
+            }
         }
     };
 });
@@ -40,13 +44,13 @@ operators.forEach(op => {
 const equalsBtn = document.getElementById('equals');
 equalsBtn.onclick = function() {
     if (displayValue === '0' && operator === '/') {  // division by 0
-        displayValue = 'Divison by zero...';
+        displayValue = 'Zero?..';
         updateDisplay();
     } else if (!operator && !operand1) {  // pressed equals before operator
         console.error('pressed equals before operator');
     } else if (!displayValue) {  // pressed operator then equals
         if (operand1 === '0') {
-            displayValue = 'Divison by zero...';
+            displayValue = 'Zero?..';
             updateDisplay();
         } else {
             displayValue = operate(operator, operand1, operand1);
@@ -154,13 +158,20 @@ function divide(x, y) {
 function operate(operator, x, y) {
     switch (operator) {
         case '+':
-            return add(x, y);
+            let sumResult = add(x, y).toString();
+            if (sumResult.length > 9) return 'Too many digits!';
+            else return sumResult;
         case '-':
-            return subtract(x, y);
+            let subResult = subtract(x, y).toString();
+            if (subResult.length > 9) return 'Too many digits!';
+            else return subResult;
         case '*':
-            return multiply(x, y);
+            let multResult = multiply(x, y).toString();
+            if (multResult.length > 9) return 'Too many digits!';
+            else return multResult; 
         case '/':
-            return divide(x,y);
+            let divResult = divide(x,y).toString();
+            if (divResult.length > 9) return 'Too many digits!';
+            else return divResult;
     }
 }
-
